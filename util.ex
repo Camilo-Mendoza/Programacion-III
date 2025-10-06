@@ -31,6 +31,29 @@ defmodule Util do
     end
   end
 
+  def ingresar(mensaje, :real) do
+    try do
+      mensaje
+      |> ingresar(:texto)
+      |> String.to_float()
+    rescue
+      ArgumentError ->
+        "Error, se espera que ingrese un número real\n"
+        |> mostrar_error()
+
+        mensaje
+        |> ingresar(:real)
+      end
+    end
+
+   def ingresar(mensaje, :boolean) do
+  valor =
+    mensaje
+    |> ingresar(:texto)
+    |> String.downcase()
+  Enum.member?(["si", "sí", "s"], valor)
+  end
+
   def mostrar_error(mensaje) do
     IO.puts(:standard_error, mensaje)
   end

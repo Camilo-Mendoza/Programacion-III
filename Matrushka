@@ -1,0 +1,40 @@
+defmodule Matrushka do
+  def build(n) when is_integer(n) and n >= 1, do: build_recursive(n)
+  def build(_), do: raise(ArgumentError, "n debe ser entero >= 1")
+
+  defp build_recursive(1), do: [1]
+  defp build_recursive(n) when n > 1 do
+    [n, build_recursive(n - 1)]
+  end
+
+  def to_string(mat) when is_list(mat), do: to_string_recursive(mat)
+
+  defp to_string_recursive([x]) when is_integer(x), do: Integer.to_string(x)
+  defp to_string_recursive([n, inner]) when is_integer(n) and is_list(inner) do
+    Integer.to_string(n) <> "(" <> to_string_recursive(inner) <> ")"
+  end
+  defp to_string_recursive(_), do: "estructura inválida"
+  def valid?(mat) when is_list(mat), do: valid_recursive?(mat)
+  def valid?(_), do: false
+
+  defp valid_recursive?([x]) when is_integer(x) and x >= 1, do: true
+
+  defp valid_recursive?([n, inner]) when is_integer(n) and is_list(inner) and n >= 2 do
+    case inner do
+      [m | _] when is_integer(m) and m < n ->
+        valid_recursive?(inner)
+      _ ->
+        false
+    end
+  end
+
+  defp valid_recursive?(_), do: false
+
+defmodule MayorLista do
+  def main do
+    lista = [4, 7, 2, 15, 9, 3]
+    mayor = buscar_mayor(lista)
+    IO.puts("El mayor es: #{mayor}")
+  end
+
+end
